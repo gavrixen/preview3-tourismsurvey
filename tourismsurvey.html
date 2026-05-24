@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tourism Survey | TourInsights</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="dashboard-body-layout">
+
+    <!-- Static Navigation Sidebar Component Matrix Panel (Consistent across internal views) -->
+    <button class="mobile-sidebar-toggle" id="sidebarToggle" onclick="toggleMobileSidebar()" aria-label="Toggle sidebar"><span></span><span></span><span></span></button>
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeMobileSidebar()"></div>
+
+    <aside class="dash-sidebar" id="dashSidebar">
+        <div class="sidebar-top-branding">
+            <h2 class="sidebar-logo">Tour<br>Insights</h2>
+        </div>
+        
+        <nav class="sidebar-menu-links">
+            <ul>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="#" onclick="openSidebarModal('sidebarAboutModal', event)">About us</a></li>
+                <li><a href="#" onclick="openSidebarModal('sidebarContactModal', event)">Contact us</a></li>
+                <li><a href="#" onclick="openSidebarModal('sidebarFaqsModal', event)">FAQs</a></li>
+            </ul>
+        </nav>
+        
+        <div class="sidebar-footer-logout">
+            <a href="#" onclick="openLogoutConfirmation(event)" class="btn-sidebar-logout">Log out</a>
+        </div>
+    </aside>
+
+    <!-- Main Content Workspace Feed - Survey Layout Panels -->
+    <main class="dash-main-workspace">
+        <div class="ts-workspace-wrapper">
+
+            <!-- SURVEY PAGE 1 -->
+            <div class="ts-page ts-active" id="ts-page1">
+                <div class="ts-form-section-card">
+                    <h1 class="ts-main-display-heading">Tourism Survey</h1>
+                    <h2 class="ts-sub-section-title">Welcome!</h2>
+                    <p class="ts-welcome-explainer-text">This short survey will help improve tourism experiences.</p>
+                    <div class="ts-action-footer-placement">
+                        <button class="ts-primary-action-btn" onclick="nextPage(2)">Start Survey</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SURVEY PAGE 2 -->
+            <div class="ts-page" id="ts-page2">
+                <div class="ts-form-section-card">
+                    <h1 class="ts-main-display-heading">Tourism Questions</h1>
+
+                    <div class="ts-vertical-inputs-grid-stack">
+                        <div class="input-field-block">
+                            <label class="input-label-text">Have you participated in tourism activities? (tours, events, seminars)</label>
+                            <div class="select-wrapper">
+                                <select id="ts_status" class="custom-input-box select-field-box" required onchange="validateField(this)">
+                                    <option value="" disabled selected>-- YES or NO --</option>
+                                    <option>Yes</option>
+                                    <option>No</option>
+                                </select>
+                            </div>
+                            <span class="field-error-msg" style="color: #d32f2f; font-weight: 700; font-size: 14px; display: none; margin-top: 4px;">Please select an option.</span>
+                        </div>
+
+                        <div class="input-field-block">
+                            <label class="input-label-text">Which tourist destination did you visit?</label>
+                            <input id="ts_dest" class="custom-input-box" type="text" required oninput="validateField(this)">
+                            <span class="field-error-msg" style="color: #d32f2f; font-weight: 700; font-size: 14px; display: none; margin-top: 4px;">This field is required.</span>
+                        </div>
+
+                        <div class="input-field-block">
+                            <label class="input-label-text">When did you visit?</label>
+                            <input id="ts_date" class="custom-input-box" type="date" required oninput="validateField(this)">
+                            <span class="field-error-msg" style="color: #d32f2f; font-weight: 700; font-size: 14px; display: none; margin-top: 4px;">Please enter a valid date.</span>
+                        </div>
+
+                        <div class="input-field-block">
+                            <label class="input-label-text">How did you hear about this place?</label>
+                            <input id="ts_source" class="custom-input-box" type="text" placeholder="Social media, friends, ads..." required oninput="validateField(this)">
+                            <span class="field-error-msg" style="color: #d32f2f; font-weight: 700; font-size: 14px; display: none; margin-top: 4px;">This field is required.</span>
+                        </div>
+
+                        <h2 class="ts-sub-section-title spacing-divider-top">Experience Rating</h2>
+
+                        <div class="ts-asymmetric-input-row-grid">
+                            <div class="input-field-block">
+                                <label class="input-label-text">Overall Experience</label>
+                                <div class="select-wrapper">
+                                    <select id="ts_rate_overall" class="custom-input-box select-field-box" required onchange="validateField(this)">
+                                        <option value="" disabled selected>-- Select Rating --</option>
+                                        <option>Excellent</option><option>Good</option><option>Fair</option><option>Poor</option>
+                                    </select>
+                                </div>
+                                <span class="field-error-msg" style="color: #d32f2f; font-weight: 700; font-size: 14px; display: none; margin-top: 4px;">Please select a rating option.</span>
+                            </div>
+
+                            <div class="input-field-block">
+                                <label class="input-label-text">Cleanliness</label>
+                                <div class="select-wrapper">
+                                    <select id="ts_rate_clean" class="custom-input-box select-field-box" required onchange="validateField(this)">
+                                        <option value="" disabled selected>-- Select Rating --</option>
+                                        <option>Excellent</option><option>Good</option><option>Fair</option><option>Poor</option>
+                                    </select>
+                                </div>
+                                <span class="field-error-msg" style="color: #d32f2f; font-weight: 700; font-size: 14px; display: none; margin-top: 4px;">Please select a rating option.</span>
+                            </div>
+                        </div>
+
+                        <div class="ts-asymmetric-input-row-grid">
+                            <div class="input-field-block">
+                                <label class="input-label-text">Safety</label>
+                                <div class="select-wrapper">
+                                    <select id="ts_rate_safety" class="custom-input-box select-field-box" required onchange="validateField(this)">
+                                        <option value="" disabled selected>-- Select Rating --</option>
+                                        <option>Excellent</option><option>Good</option><option>Fair</option><option>Poor</option>
+                                    </select>
+                                </div>
+                                <span class="field-error-msg" style="color: #d32f2f; font-weight: 700; font-size: 14px; display: none; margin-top: 4px;">Please select a rating option.</span>
+                            </div>
+
+                            <div class="input-field-block">
+                                <label class="input-label-text">Accessibility</label>
+                                <div class="select-wrapper">
+                                    <select id="ts_rate_access" class="custom-input-box select-field-box" required onchange="validateField(this)">
+                                        <option value="" disabled selected>-- Select Rating --</option>
+                                        <option>Excellent</option><option>Good</option><option>Fair</option><option>Poor</option>
+                                    </select>
+                                </div>
+                                <span class="field-error-msg" style="color: #d32f2f; font-weight: 700; font-size: 14px; display: none; margin-top: 4px;">Please select a rating option.</span>
+                            </div>
+                        </div>
+
+                        <div class="input-field-block">
+                            <label class="input-label-text">Friendliness of locals/staff</label>
+                            <div class="select-wrapper">
+                                <select id="ts_rate_staff" class="custom-input-box select-field-box" required onchange="validateField(this)">
+                                    <option value="" disabled selected>-- Select Rating --</option>
+                                    <option>Excellent</option><option>Good</option><option>Fair</option><option>Poor</option>
+                                </select>
+                            </div>
+                            <span class="field-error-msg" style="color: #d32f2f; font-weight: 700; font-size: 14px; display: none; margin-top: 4px;">Please select a rating option.</span>
+                        </div>
+
+                        <h2 class="ts-sub-section-title spacing-divider-top">Services & Facilities</h2>
+
+                        <div class="ts-asymmetric-input-row-grid">
+                            <div class="input-field-block">
+                                <label class="input-label-text">Are you satisfied with facilities?</label>
+                                <div class="select-wrapper">
+                                    <select id="ts_satisfied_facilities" class="custom-input-box select-field-box" required onchange="validateField(this)">
+                                        <option value="" disabled selected>-- YES or NO --</option>
+                                        <option>Yes</option><option>No</option>
+                                    </select>
+                                </div>
+                                <span class="field-error-msg" style="color: #d32f2f; font-weight: 700; font-size: 14px; display: none; margin-top: 4px;">Please select an option.</span>
+                            </div>
+
+                            <div class="input-field-block">
+                                <label class="input-label-text">Were prices reasonable?</label>
+                                <div class="select-wrapper">
+                                    <select id="ts_prices_reasonable" class="custom-input-box select-field-box" required onchange="validateField(this)">
+                                        <option value="" disabled selected>-- YES or NO --</option>
+                                        <option>Yes</option><option>No</option>
+                                    </select>
+                                </div>
+                                <span class="field-error-msg" style="color: #d32f2f; font-weight: 700; font-size: 14px; display: none; margin-top: 4px;">Please select an option.</span>
+                            </div>
+                        </div>
+
+                        <div class="input-field-block">
+                            <label class="input-label-text">Was signage clear and helpful?</label>
+                            <div class="select-wrapper">
+                                <select id="ts_signage_clear" class="custom-input-box select-field-box" required onchange="validateField(this)">
+                                    <option value="" disabled selected>-- YES or NO --</option>
+                                    <option>Yes</option><option>No</option>
+                                </select>
+                            </div>
+                            <span class="field-error-msg" style="color: #d32f2f; font-weight: 700; font-size: 14px; display: none; margin-top: 4px;">Please select an option.</span>
+                        </div>
+                    </div>
+
+                    <div class="ts-double-action-navigation-footer">
+                        <button type="button" class="ts-secondary-outline-btn" onclick="nextPage(1)">Back</button>
+                        <button type="button" class="ts-primary-action-btn button-split-width" onclick="validateAndGoToPage3()">Next</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SURVEY PAGE 3 -->
+            <div class="ts-page" id="ts-page3">
+                <div class="ts-form-section-card">
+                    <h1 class="ts-main-display-heading">Satisfaction & Recommendation</h1>
+
+                    <div class="ts-vertical-inputs-grid-stack">
+                        <div class="input-field-block">
+                            <label class="input-label-text">What did you like most about the place?</label>
+                            <textarea id="ts_like_most" class="custom-input-box text-area-input-box" rows="3" required oninput="validateField(this)"></textarea>
+                            <span class="field-error-msg" style="color: #d32f2f; font-weight: 700; font-size: 14px; display: none; margin-top: 4px;">This field is required.</span>
+                        </div>
+
+                        <div class="input-field-block">
+                            <label class="input-label-text">What did you dislike or find lacking?</label>
+                            <textarea id="ts_dislike" class="custom-input-box text-area-input-box" rows="3" required oninput="validateField(this)"></textarea>
+                            <span class="field-error-msg" style="color: #d32f2f; font-weight: 700; font-size: 14px; display: none; margin-top: 4px;">This field is required.</span>
+                        </div>
+
+                        <div class="ts-asymmetric-input-row-grid">
+                            <div class="input-field-block">
+                                <label class="input-label-text">Would you recommend this place?</label>
+                                <div class="select-wrapper">
+                                    <select id="ts_recommend" class="custom-input-box select-field-box" required onchange="validateField(this)">
+                                        <option value="" disabled selected>-- YES or NO --</option>
+                                        <option>Yes</option><option>No</option>
+                                    </select>
+                                </div>
+                                <span class="field-error-msg" style="color: #d32f2f; font-weight: 700; font-size: 14px; display: none; margin-top: 4px;">Please select an option.</span>
+                            </div>
+
+                            <div class="input-field-block">
+                                <label class="input-label-text">Would you visit again?</label>
+                                <div class="select-wrapper">
+                                    <select id="ts_visit_again" class="custom-input-box select-field-box" required onchange="validateField(this)">
+                                        <option value="" disabled selected>-- YES or NO --</option>
+                                        <option>Yes</option><option>No</option>
+                                    </select>
+                                </div>
+                                <span class="field-error-msg" style="color: #d32f2f; font-weight: 700; font-size: 14px; display: none; margin-top: 4px;">Please select an option.</span>
+                            </div>
+                        </div>
+
+                        <h2 class="ts-sub-section-title spacing-divider-top">Suggestions</h2>
+
+                        <div class="input-field-block">
+                            <label class="input-label-text">What improvements would you suggest?</label>
+                            <textarea id="ts_suggestions" class="custom-input-box text-area-input-box" rows="3" required oninput="validateField(this)"></textarea>
+                            <span class="field-error-msg" style="color: #d32f2f; font-weight: 700; font-size: 14px; display: none; margin-top: 4px;">This field is required.</span>
+                        </div>
+
+                        <div class="input-field-block">
+                            <label class="input-label-text">Additional comments</label>
+                            <textarea id="ts_comments" class="custom-input-box text-area-input-box" rows="3" required oninput="validateField(this)"></textarea>
+                            <span class="field-error-msg" style="color: #d32f2f; font-weight: 700; font-size: 14px; display: none; margin-top: 4px;">This field is required.</span>
+                        </div>
+                    </div>
+
+                    <div class="ts-double-action-navigation-footer">
+                        <button type="button" class="ts-secondary-outline-btn" onclick="nextPage(2)">Back</button>
+                        <button type="button" class="ts-primary-action-btn button-split-width" onclick="submitForm()">Submit</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- 1:1 Clean Survey Submission Confirmation Dialog Overlay Panel -->
+    <div id="surveySubmitConfirmModal" class="modal-overlay" onclick="closeSurveyConfirmOutside(event)">
+        <div class="modal-card success-modal-card" style="max-width: 500px; padding: 40px; height: auto;">
+            <h1 class="success-modal-heading" style="font-size: 34px; font-weight: 900; margin-bottom: 12px; color: #1a1a1a;">Submit survey?</h1>
+            <p class="success-modal-body-text" style="font-size: 15px; color: #444444; margin-bottom: 25px; line-height: 1.5;">
+                Are you sure you want to finalize your responses? You won't be able to edit your answers after this.
+            </p>
+            <div class="confirm-action-buttons-group" style="gap: 14px; width: 100%;">
+                <button type="button" class="confirm-secondary-btn-outline" style="height: 48px; font-size: 16px;" onclick="closeSurveyConfirmModal()">Cancel</button>
+                <button type="button" class="confirm-primary-btn-solid" style="height: 48px; font-size: 16px;" onclick="commitSurveySubmissionResponse()">Okay</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 1:1 Survey Submission Success Dialog Overlay Panel -->
+    <div id="surveySubmitSuccessModal" class="modal-overlay" onclick="closeSurveySuccessOutside(event)">
+        <div class="modal-card success-modal-card" style="max-width: 480px; padding: 45px 40px; height: auto;">
+            <button class="modal-close-btn success-close-x" onclick="closeSurveySuccessModal()">&times;</button>
+            <div class="success-icon-celebration-wrapper" style="font-size: 48px; margin-bottom: 15px;">🎉</div>
+            <h1 class="success-modal-heading" style="font-size: 36px; font-weight: 900; margin-bottom: 12px; color: #1a1a1a;">Thank you!</h1>
+            <p class="success-modal-body-text" style="font-size: 15px; color: #444444; margin-bottom: 28px; line-height: 1.5;">
+                Your survey response has been successfully submitted.<br><span style="font-weight: 700; color: #1a1a1a;">What would you like to do next?</span>
+            </p>
+            <div class="confirm-action-buttons-group" style="gap: 14px; width: 100%;">
+                <button type="button" class="confirm-secondary-btn-outline" style="height: 48px; font-size: 15px;" onclick="routeUserToDashboard()">Go to Dashboard</button>
+                <button type="button" class="confirm-primary-btn-solid" style="height: 48px; font-size: 15px;" onclick="openSubmittedResponseSummaryView()">View my response</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 1:1 Detailed Survey Response Interactive Sheet Modal Layer Component Overlay -->
+    <div id="submittedResponseSummaryViewModal" class="modal-overlay" onclick="closeSummaryViewOutside(event)">
+        <div class="modal-card" style="max-width: 600px; padding: 40px; height: 85vh; border-radius: 24px; background-color: #ffffff;">
+            <button class="modal-close-btn" style="top: 20px; right: 25px; font-size: 30px;" onclick="closeSummaryViewModal()">&times;</button>
+            <div class="modal-content-scroll" style="padding-right: 5px;">
+                <h1 style="font-size: 32px; font-weight: 900; color: #1a1a1a; text-align: center; margin-bottom: 30px; letter-spacing: -0.5px;">Your Survey Response</h1>
+                
+                <div style="display: flex; flex-direction: column; gap: 24px; width: 100%;">
+                    <div>
+                        <label style="font-size: 15px; font-weight: 800; color: #1a1a1a; display: block; margin-bottom: 6px;">Participation Status:</label>
+                        <div id="viewRepStatus" style="font-size: 16px; color: #444444; font-weight: 600; background-color: #f7f7f7; padding: 12px 16px; border-radius: 8px;">Yes</div>
+                    </div>
+                    <div>
+                        <label style="font-size: 15px; font-weight: 800; color: #1a1a1a; display: block; margin-bottom: 6px;">Destination Visited:</label>
+                        <div id="viewRepDest" style="font-size: 16px; color: #444444; font-weight: 600; background-color: #f7f7f7; padding: 12px 16px; border-radius: 8px;">N/A</div>
+                    </div>
+                    <div>
+                        <label style="font-size: 15px; font-weight: 800; color: #1a1a1a; display: block; margin-bottom: 6px;">Visit Date:</label>
+                        <div id="viewRepDate" style="font-size: 16px; color: #444444; font-weight: 600; background-color: #f7f7f7; padding: 12px 16px; border-radius: 8px;">2026-05-05</div>
+                    </div>
+                    <div>
+                        <label style="font-size: 15px; font-weight: 800; color: #1a1a1a; display: block; margin-bottom: 6px;">How did you hear about this place?</label>
+                        <div id="viewRepSource" style="font-size: 16px; color: #444444; font-weight: 600; background-color: #f7f7f7; padding: 12px 16px; border-radius: 8px;">N/A</div>
+                    </div>
+                    
+                    <div style="border-top: 1px dashed #e2e8f0; padding-top: 15px;">
+                        <h3 style="font-size: 18px; font-weight: 800; color: #0035ad; margin-bottom: 16px;">Experience Rating</h3>
+                        <div style="display: flex; flex-direction: column; gap: 14px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; background-color: #f8fafc; padding: 10px 14px; border-radius: 6px;">
+                                <span style="font-weight: 700; color: #334155; font-size: 14px;">Overall Experience:</span>
+                                <span id="viewRepRatingOverall" style="font-weight: 800; color: #0035ad; font-size: 14px;">Excellent</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; background-color: #f8fafc; padding: 10px 14px; border-radius: 6px;">
+                                <span style="font-weight: 700; color: #334155; font-size: 14px;">Cleanliness:</span>
+                                <span id="viewRepRatingClean" style="font-weight: 800; color: #0035ad; font-size: 14px;">Good</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; background-color: #f8fafc; padding: 10px 14px; border-radius: 6px;">
+                                <span style="font-weight: 700; color: #334155; font-size: 14px;">Safety:</span>
+                                <span id="viewRepRatingSafety" style="font-weight: 800; color: #0035ad; font-size: 14px;">Excellent</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; background-color: #f8fafc; padding: 10px 14px; border-radius: 6px;">
+                                <span style="font-weight: 700; color: #334155; font-size: 14px;">Accessibility:</span>
+                                <span id="viewRepRatingAccess" style="font-weight: 800; color: #0035ad; font-size: 14px;">Good</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button type="button" class="primary-login-btn" style="margin-top: 35px; height: 50px; font-size: 16px;" onclick="closeSummaryViewModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 1:1 Clean Context Drop Confirm Logout Window Modal Component Overlay -->
+    <div id="logoutConfirmationModal" class="modal-overlay" onclick="closeLogoutModalOutside(event)">
+        <div class="modal-card success-modal-card" style="max-width: 440px; padding: 40px; height: auto;">
+            <button class="modal-close-btn success-close-x" onclick="closeLogoutModal()">&times;</button>
+            <div class="success-icon-celebration-wrapper" style="font-size: 44px; margin-bottom: 15px;">👋</div>
+            <h1 class="success-modal-heading" style="font-size: 26px; margin-bottom: 12px;">Logging Out?</h1>
+            <p class="success-modal-body-text" style="margin-bottom: 25px; font-size: 15px;">Are you sure you want to end your session and return to the main landing page?</p>
+            <div class="confirm-action-buttons-group" style="gap: 12px;">
+                <button type="button" class="confirm-secondary-btn-outline" style="height: 46px; font-size: 15px;" onclick="closeLogoutModal()">Cancel</button>
+                <button type="button" class="confirm-primary-btn-solid" style="height: 46px; font-size: 15px; background-color: #d32f2f; box-shadow: 0 4px 12px rgba(211,47,47,0.25);" onclick="executeFinalSessionLogout()">Log Out</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function nextPage(pageNum) {
+            document.querySelectorAll('.ts-page').forEach(p => p.classList.remove('ts-active'));
+            const targetPage = document.getElementById('ts-page' + pageNum);
+            if (targetPage) {
+                targetPage.classList.add('ts-active');
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Inline live field status scanning
+        function validateField(element) {
+            const block = element.closest('.input-field-block');
+            if (!block) return true;
+            const errorMsg = block.querySelector('.field-error-msg');
+            
+            if (element.value.trim() === "") {
+                element.style.borderColor = "#d32f2f";
+                element.style.borderWidth = "2px";
+                if (errorMsg) errorMsg.style.display = "block";
+                return false;
+            } else {
+                element.style.borderColor = "";
+                element.style.borderWidth = "";
+                if (errorMsg) errorMsg.style.display = "none";
+                return true;
+            }
+        }
+
+        function validateAndGoToPage3() {
+            let isValid = true;
+            const page2Fields = document.querySelectorAll('#ts-page2 [required]');
+            
+            page2Fields.forEach(field => {
+                if (!validateField(field)) {
+                    isValid = false;
+                }
+            });
+
+            if (isValid) {
+                nextPage(3);
+            } else {
+                const firstInvalid = document.querySelector('#ts-page2 [style*="border-color: rgb(211, 47, 47)"]');
+                if (firstInvalid) firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        function submitForm() {
+            let isValid = true;
+            const page3Fields = document.querySelectorAll('#ts-page3 [required]');
+            
+            page3Fields.forEach(field => {
+                if (!validateField(field)) {
+                    isValid = false;
+                }
+            });
+
+            if (!isValid) {
+                const firstInvalid = document.querySelector('#ts-page3 [style*="border-color: rgb(211, 47, 47)"]');
+                if (firstInvalid) firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                return;
+            }
+
+            const confirmModal = document.getElementById('surveySubmitConfirmModal');
+            if (confirmModal) {
+                confirmModal.classList.add('active');
+                document.body.classList.add('modal-open');
+            }
+        }
+
+        function closeSurveyConfirmModal() {
+            const confirmModal = document.getElementById('surveySubmitConfirmModal');
+            if (confirmModal) {
+                confirmModal.classList.remove('active');
+                document.body.classList.remove('modal-open');
+            }
+        }
+
+        function closeSurveyConfirmOutside(event) {
+            if (event.target.id === 'surveySubmitConfirmModal') {
+                closeSurveyConfirmModal();
+            }
+        }
+
+        function commitSurveySubmissionResponse() {
+            closeSurveyConfirmModal();
+            
+            // Gather exact element reference coordinates sequentially
+            document.getElementById('viewRepStatus').innerText = document.getElementById('ts_status').value || 'N/A';
+            document.getElementById('viewRepDest').innerText = document.getElementById('ts_dest').value || 'N/A';
+            document.getElementById('viewRepDate').innerText = document.getElementById('ts_date').value || 'N/A';
+            document.getElementById('viewRepSource').innerText = document.getElementById('ts_source').value || 'N/A';
+            
+            document.getElementById('viewRepRatingOverall').innerText = document.getElementById('ts_rate_overall').value || 'N/A';
+            document.getElementById('viewRepRatingClean').innerText = document.getElementById('ts_rate_clean').value || 'N/A';
+            document.getElementById('viewRepRatingSafety').innerText = document.getElementById('ts_rate_safety').value || 'N/A';
+            document.getElementById('viewRepRatingAccess').innerText = document.getElementById('ts_rate_access').value || 'N/A';
+
+            const successModal = document.getElementById('surveySubmitSuccessModal');
+            if (successModal) {
+                successModal.classList.add('active');
+                document.body.classList.add('modal-open');
+            }
+        }
+
+        function closeSurveySuccessModal() {
+            const successModal = document.getElementById('surveySubmitSuccessModal');
+            if (successModal) {
+                successModal.classList.remove('active');
+                document.body.classList.remove('modal-open');
+            }
+        }
+
+        function closeSurveySuccessOutside(event) {
+            if (event.target.id === 'surveySubmitSuccessModal') {
+                closeSurveySuccessModal();
+            }
+        }
+
+        function routeUserToDashboard() {
+            closeSurveySuccessModal();
+            window.location.href = 'dashboard.html';
+        }
+
+        function openSubmittedResponseSummaryView() {
+            closeSurveySuccessModal();
+            const summaryModal = document.getElementById('submittedResponseSummaryViewModal');
+            if (summaryModal) {
+                summaryModal.classList.add('active');
+                document.body.classList.add('modal-open');
+            }
+        }
+
+        function closeSummaryViewModal() {
+            const summaryModal = document.getElementById('submittedResponseSummaryViewModal');
+            if (summaryModal) {
+                summaryModal.classList.remove('active');
+                document.body.classList.remove('modal-open');
+            }
+        }
+
+        function closeSummaryViewOutside(event) {
+            if (event.target.id === 'submittedResponseSummaryViewModal') {
+                closeSummaryViewModal();
+            }
+        }
+
+        function openLogoutConfirmation(event) {
+            event.preventDefault();
+            const modal = document.getElementById('logoutConfirmationModal');
+            if (modal) {
+                modal.classList.add('active');
+                document.body.classList.add('modal-open');
+            }
+        }
+
+        function closeLogoutModal() {
+            const modal = document.getElementById('logoutConfirmationModal');
+            if (modal) {
+                modal.classList.remove('active');
+                document.body.classList.remove('modal-open');
+            }
+        }
+
+        function closeLogoutModalOutside(event) {
+            if (event.target.id === 'logoutConfirmationModal') {
+                closeLogoutModal();
+            }
+        }
+
+        function executeFinalSessionLogout() {
+            closeLogoutModal();
+            window.location.href = 'index.html';
+        }
+
+        function toggleMobileSidebar() {
+            const sidebar = document.getElementById('dashSidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            sidebar.classList.toggle('mobile-open');
+            overlay.classList.toggle('active');
+        }
+
+        function closeMobileSidebar() {
+            const sidebar = document.getElementById('dashSidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            sidebar.classList.remove('mobile-open');
+            overlay.classList.remove('active');
+        }
+    </script>
+
+
+    <!-- Sidebar Functional Modal Components Layer Matrix -->
+    <div id="sidebarAboutModal" class="modal-overlay" onclick="closeSidebarModalOutside(event)">
+        <div class="modal-card" style="max-width: 850px; padding: 40px; height: 80vh;">
+            <button class="modal-close-btn" onclick="closeSidebarModal('sidebarAboutModal')">&times;</button>
+            <div class="modal-content-scroll">
+                <h1 class="modal-title" style="font-size: 36px; color: #0038A8; font-weight: 900; margin-bottom: 20px;">About us</h1>
+                <p class="modal-paragraph" style="font-size: 16px; color: #444444; line-height: 1.6; text-align: justify; margin-bottom: 30px;">
+                    Welcome to our specialized platform designed exclusively for the next generation of tourism and hospitality professionals. We believe that excellent education relies on a strong connection between classroom theory and real-world application. This tool gathers and analyzes the diverse experiences of tourism students navigating their degrees, field activities, and industry placements. By capturing these insights, we help shape a more responsive, impactful educational journey that better prepares students for the global workforce.
+                </p>
+                <div style="display: flex; gap: 24px; flex-direction: row; margin-top: 20px;" class="confirm-modal-split-layout">
+                    <div style="flex: 1; background-color: #f8fafc; padding: 25px; border-radius: 16px; border: 1px solid #e2e8f0;">
+                        <h2 style="font-size: 22px; font-weight: 800; color: #0038A8; margin-bottom: 12px;">Our Mission</h2>
+                        <p style="font-size: 14px; color: #333333; line-height: 1.6; text-align: justify;">To empower tourism students by providing a dedicated digital platform to voice their academic and practical experiences. We aim to collect high-quality, actionable feedback that enables educators and industry partners to continuously improve training programs, optimize curricula, and better equip students for the evolving demands of the global tourism and hospitality landscape.</p>
+                    </div>
+                    <div style="flex: 1; background-color: #f8fafc; padding: 25px; border-radius: 16px; border: 1px solid #e2e8f0;">
+                        <h2 style="font-size: 22px; font-weight: 800; color: #0038A8; margin-bottom: 12px;">Our Vision</h2>
+                        <p style="font-size: 14px; color: #333333; line-height: 1.6; text-align: justify;">To become the definitive platform for student insight in tourism education, fostering a collaborative ecosystem where data-driven academic learning and exceptional practical experience align perfectly to produce world-class tourism professionals.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="sidebarContactModal" class="modal-overlay" onclick="closeSidebarModalOutside(event)">
+        <div class="modal-card" style="max-width: 750px; padding: 40px; height: auto; max-height: 85vh;">
+            <button class="modal-close-btn" onclick="closeSidebarModal('sidebarContactModal')">&times;</button>
+            <div class="modal-content-scroll">
+                <h1 class="modal-title" style="font-size: 36px; color: #0038A8; font-weight: 900; margin-bottom: 15px;">Contact Us</h1>
+                <p class="modal-date" style="font-weight: 700; color: #666666; margin-bottom: 25px;">TECH SUPPORT</p>
+                
+                <h2 class="modal-subtitle" style="font-size: 20px; font-weight: 800; color: #1a1a1a; margin-top: 20px; margin-bottom: 10px;">Contact Our Technical Team</h2>
+                <p class="modal-paragraph" style="font-size: 15px; color: #333333; line-height: 1.65; margin-bottom: 20px; text-align: justify;">If you have any questions regarding our Privacy Policy or Terms of Use, require technical assistance with your account, or need support while navigating the survey platform, please do not hesitate to get in touch with us. The development and research group is dedicated to ensuring a smooth, secure, and accessible experience for all student participants.</p>
+                
+                <h2 class="modal-subtitle" style="font-size: 20px; font-weight: 800; color: #1a1a1a; margin-top: 20px; margin-bottom: 10px;">Get in Touch</h2>
+                <p class="modal-paragraph" style="font-size: 15px; color: #333333; line-height: 1.65; margin-bottom: 12px; text-align: justify;">You can reach out to our team directly through our official communication channels. For general inquiries, system troubleshooting, or specific account and data management requests, please send an email to <strong>group6surveysite@mail.com</strong>.</p>
+                <p class="modal-paragraph" style="font-size: 15px; color: #333333; line-height: 1.65; margin-bottom: 14px; text-align: justify;">If you require urgent assistance or need to report an active issue regarding your registration or system compliance details, you can contact our technical support hotline at <strong>0921-345-3467</strong>.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="sidebarFaqsModal" class="modal-overlay" onclick="closeSidebarModalOutside(event)">
+        <div class="modal-card" style="max-width: 850px; padding: 40px; height: 80vh;">
+            <button class="modal-close-btn" onclick="closeSidebarModal('sidebarFaqsModal')">&times;</button>
+            <div class="modal-content-scroll">
+                <h1 class="modal-title" style="font-size: 36px; color: #0038A8; font-weight: 900; margin-bottom: 20px;">Frequently Asked Questions</h1>
+
+                <div class="faq-list" style="width: 100%;">
+
+                    <div class="faq-item open">
+                        <div class="faq-header" onclick="toggleFaq(this)">
+                            <div class="faq-icon" aria-hidden="true">
+                                <svg viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <line x1="11" y1="2" x2="11" y2="20" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/>
+                                    <line x1="2" y1="11" x2="20" y2="11" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/>
+                                </svg>
+                            </div>
+                            <span class="faq-question">What is the purpose of this survey platform?</span>
+                        </div>
+                        <div class="faq-answer">
+                            <div class="faq-answer-inner">
+                                This platform is designed to bridge the gap between classroom learning and real-world hospitality and tourism training. By collecting insights on your academic courses and hands-on practical experiences, we can help educators optimize the curriculum to better prepare students for the global tourism industry.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-header" onclick="toggleFaq(this)">
+                            <div class="faq-icon" aria-hidden="true">
+                                <svg viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <line x1="11" y1="2" x2="11" y2="20" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/>
+                                    <line x1="2" y1="11" x2="20" y2="11" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/>
+                                </svg>
+                            </div>
+                            <span class="faq-question">How long does it take to complete the survey?</span>
+                        </div>
+                        <div class="faq-answer">
+                            <div class="faq-answer-inner">
+                                We know student schedules are packed, so the survey is streamlined. It typically takes about 5 to 10 minutes to complete, depending on how much detailed feedback you want to share about your practical experiences.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-header" onclick="toggleFaq(this)">
+                            <div class="faq-icon" aria-hidden="true">
+                                <svg viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <line x1="11" y1="2" x2="11" y2="20" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/>
+                                    <line x1="2" y1="11" x2="20" y2="11" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/>
+                                </svg>
+                            </div>
+                            <span class="faq-question">Is my personal data safe, and will my answers be confidential?</span>
+                        </div>
+                        <div class="faq-answer">
+                            <div class="faq-answer-inner">
+                                Absolutely. Data privacy is a top priority for us. Your specific personal information is completely protected and will never be shared. All survey results are aggregated for academic analysis, meaning your responses are analyzed as a group rather than tied to you individually. For more details, you can view our full Privacy Policy in the website footer.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-header" onclick="toggleFaq(this)">
+                            <div class="faq-icon" aria-hidden="true">
+                                <svg viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <line x1="11" y1="2" x2="11" y2="20" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/>
+                                    <line x1="2" y1="11" x2="20" y2="11" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/>
+                                </svg>
+                            </div>
+                            <span class="faq-question">Do I need an account to take the survey?</span>
+                        </div>
+                        <div class="faq-answer">
+                            <div class="faq-answer-inner">
+                                Yes, creating an account helps ensure data integrity, meaning one valid student equals one set of responses. It also allows you to save your progress if you need to step away and finish the survey later, or log back in to view your submission history.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-header" onclick="toggleFaq(this)">
+                            <div class="faq-icon" aria-hidden="true">
+                                <svg viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <line x1="11" y1="2" x2="11" y2="20" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/>
+                                    <line x1="2" y1="11" x2="20" y2="11" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/>
+                                </svg>
+                            </div>
+                            <span class="faq-question">Who can I contact if I experience technical issues?</span>
+                        </div>
+                        <div class="faq-answer">
+                            <div class="faq-answer-inner">
+                                If you run into any bugs, trouble logging in, or problems submitting your responses, please use the "Contact Us" link in the footer to send a quick message to our development team.
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        
+        function toggleFaq(headerElement) {
+            const currentItem = headerElement.closest('.faq-item');
+            const currentState = currentItem.classList.contains('open');
+            currentItem.classList.toggle('open', !currentState);
+        }
+
+        function openSidebarModal(modalId, event) {
+            if (event) event.preventDefault();
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.add('active');
+                document.body.classList.add('modal-open');
+            }
+        }
+
+        function closeSidebarModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.remove('active');
+                const activeModals = document.querySelectorAll('.modal-overlay.active');
+                if (activeModals.length === 0) {
+                    document.body.classList.remove('modal-open');
+                }
+            }
+        }
+
+        function closeSidebarModalOutside(event) {
+            if (event.target.classList.contains('modal-overlay')) {
+                closeSidebarModal(event.target.id);
+            }
+        }
+    </script>
+
+</body>
+</html>
